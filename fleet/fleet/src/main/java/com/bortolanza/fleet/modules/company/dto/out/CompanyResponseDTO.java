@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.company.dto;
+package com.bortolanza.fleet.modules.company.dto.out;
 
 import lombok.*;
 
