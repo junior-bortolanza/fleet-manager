@@ -1,10 +1,7 @@
-package com.bortolanza.fleet.infrastructure.entity;
+package com.bortolanza.fleet.modules.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,22 +12,31 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "companies")
-public class CompanyEntity {
+public class Company {
         @Id
         @GeneratedValue(strategy = GenerationType.UUID)
         private UUID id;
+
         @Column(nullable = false)
         private String name;
+
         @Column(nullable = false, unique = true, length = 18)
         private String cnpj;
 
         private String email;
         private String phone;
         private String address;
+
+        @Column(length = 100)
         private String city;
+
+        @Column(length = 2)
         private String state;
+
+        @Column(length = 9)
         private String zipCode;
 
         @Column(nullable = false)
