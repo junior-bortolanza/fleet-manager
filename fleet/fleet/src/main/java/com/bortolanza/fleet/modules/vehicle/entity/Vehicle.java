@@ -1,15 +1,14 @@
-package com.bortolanza.fleet.infrastructure.entity;
+package com.bortolanza.fleet.modules.entity;
 
-import com.bortolanza.fleet.infrastructure.enums.VehicleStatus;
-import com.bortolanza.fleet.infrastructure.enums.VehicleType;
+import com.bortolanza.fleet.modules.company.entity.Company;
+import com.bortolanza.fleet.modules.enums.VehicleStatus;
+import com.bortolanza.fleet.modules.enums.VehicleType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,9 +17,17 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "vehicles")
-public class VehicleEntity {
+@Table(
+        name = "vehicles",
+        indexes = {
+                @Index(name = "idx_vehicle_company", columnList = "company_id"),
+                @Index(name = "idx_vehicle_status", columnList = "status"),
+                @Index(name = "idx_vehicle_active", columnList = "active")
+        }
+)
+public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,19 +35,31 @@ public class VehicleEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "company_id", nullable = false)
-    private CompanyEntity company;
+    private Company company;
 
     @Column(nullable = false, unique = true, length = 8)
     private String plate;
+
     @Column(nullable = false)
     private String brand;
+
     @Column(nullable = false)
     private String model;
+
     private String color;
+
     @Column(nullable = false)
-    private Integer year;
+    private Integer manufacturingYear;
+
+    @Column(nullable = false)
+    private Integer modelYear;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal loadCapacityKg;
+
     @Column(nullable = false, unique = true,  length = 11)
     private String renavam;
+
     @Column(nullable = false, unique = true,  length = 17)
     private String chassis;
 

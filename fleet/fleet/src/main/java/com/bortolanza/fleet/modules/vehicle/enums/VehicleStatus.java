@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.infrastructure.enums;
+package com.bortolanza.fleet.modules.enums;
 
 public enum VehicleStatus {
     ACTIVE,
