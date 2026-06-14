@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.company.dto.mapper;
+package com.bortolanza.fleet.modules.company.mapper;
 
 import com.bortolanza.fleet.modules.company.dto.in.CompanyRequestDTO;
 import com.bortolanza.fleet.modules.company.dto.out.CompanyResponseDTO;

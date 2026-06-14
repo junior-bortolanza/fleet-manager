@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.entity;
+package com.bortolanza.fleet.modules.company.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,15 +20,23 @@ public class Company {
         @GeneratedValue(strategy = GenerationType.UUID)
         private UUID id;
 
-        @Column(nullable = false)
+        @Column(nullable = false, length = 150)
         private String name;
+
+        @Column(nullable = false, length = 150)
+        private String tradeName;
 
         @Column(nullable = false, unique = true, length = 18)
         private String cnpj;
 
+        @Column(nullable = false, length = 150)
         private String email;
+        @Column(nullable = false, length = 20)
         private String phone;
+        @Column(nullable = false, length = 255)
         private String address;
+
+        private String logoUrl;
 
         @Column(length = 100)
         private String city;

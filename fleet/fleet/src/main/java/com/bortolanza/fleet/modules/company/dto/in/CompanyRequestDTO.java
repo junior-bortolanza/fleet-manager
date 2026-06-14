@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.company.dto;
+package com.bortolanza.fleet.modules.company.dto.in;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -11,6 +11,9 @@ import lombok.*;
 public class CompanyRequestDTO {
     @NotBlank
     private String name;
+
+    @NotBlank
+    private String tradeName;
 
     @NotBlank
     private String cnpj;
