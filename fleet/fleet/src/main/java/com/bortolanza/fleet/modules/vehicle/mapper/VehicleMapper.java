@@ -1,9 +1,10 @@
-package com.bortolanza.fleet.modules.vehicle.dto.mapper;
+package com.bortolanza.fleet.modules.vehicle.mapper;
 
 import com.bortolanza.fleet.modules.vehicle.entity.Vehicle;
 import com.bortolanza.fleet.modules.vehicle.dto.in.VehicleRequestDTO;
 import com.bortolanza.fleet.modules.vehicle.dto.out.VehicleResponseDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface VehicleMapper {
@@ -11,4 +12,6 @@ public interface VehicleMapper {
     Vehicle toEntity(VehicleRequestDTO dto);
     VehicleResponseDTO toResponseDTO(Vehicle entity);
 
+
+    void toEntity(VehicleRequestDTO vehicleRequestDTO, @MappingTarget Vehicle vehicle);
 }

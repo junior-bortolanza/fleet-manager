@@ -1,9 +1,12 @@
-package com.bortolanza.fleet.modules.dto.in;
+package com.bortolanza.fleet.modules.vehicle.dto.in;
 
-import com.bortolanza.fleet.modules.enums.VehicleType;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleStatus;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleType;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,6 +25,8 @@ public class VehicleRequestDTO {
     private UUID companyId;
 
     @NotBlank
+    @Size(min = 7, max = 8)
+    @Column(unique = true)
     private String plate;
 
     @NotBlank
@@ -53,5 +58,8 @@ public class VehicleRequestDTO {
 
     @NotNull
     private VehicleType vehicleType;
+
+    @NotNull
+    private VehicleStatus vehicleStatus;
 
 }

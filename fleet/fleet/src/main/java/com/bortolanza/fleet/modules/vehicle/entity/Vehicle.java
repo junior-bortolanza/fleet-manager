@@ -1,8 +1,8 @@
-package com.bortolanza.fleet.modules.entity;
+package com.bortolanza.fleet.modules.vehicle.entity;
 
 import com.bortolanza.fleet.modules.company.entity.Company;
-import com.bortolanza.fleet.modules.enums.VehicleStatus;
-import com.bortolanza.fleet.modules.enums.VehicleType;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleStatus;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,8 +23,7 @@ import java.util.UUID;
         name = "vehicles",
         indexes = {
                 @Index(name = "idx_vehicle_company", columnList = "company_id"),
-                @Index(name = "idx_vehicle_status", columnList = "status"),
-                @Index(name = "idx_vehicle_active", columnList = "active")
+                @Index(name = "idx_vehicle_status", columnList = "status")
         }
 )
 public class Vehicle {
@@ -40,10 +39,10 @@ public class Vehicle {
     @Column(nullable = false, unique = true, length = 8)
     private String plate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String brand;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String model;
 
     private String color;
@@ -76,9 +75,6 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicleStatus status = VehicleStatus.ACTIVE;
-
-    @Column(nullable = false)
-    private boolean active = true;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

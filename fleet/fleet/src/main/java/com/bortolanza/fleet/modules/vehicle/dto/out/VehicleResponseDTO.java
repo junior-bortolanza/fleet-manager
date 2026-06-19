@@ -1,7 +1,7 @@
-package com.bortolanza.fleet.modules.dto.out;
+package com.bortolanza.fleet.modules.vehicle.dto.out;
 
-import com.bortolanza.fleet.modules.enums.VehicleStatus;
-import com.bortolanza.fleet.modules.enums.VehicleType;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleStatus;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleType;
 import lombok.*;
 
 
