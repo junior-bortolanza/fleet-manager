@@ -1,7 +1,8 @@
-package com.bortolanza.fleet.modules.auth;
+package com.bortolanza.fleet.modules.auth.service;
 
-import com.bortolanza.fleet.modules.exceptions.UnauthorizedException;
-import com.bortolanza.fleet.security.jwt.JwtUtil;
+import com.bortolanza.fleet.common.exceptions.UnauthorizedException;
+import com.bortolanza.fleet.modules.auth.dto.LoginRequestDTO;
+import com.bortolanza.fleet.security.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

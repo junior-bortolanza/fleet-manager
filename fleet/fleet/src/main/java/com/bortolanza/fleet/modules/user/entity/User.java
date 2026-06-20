@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.entity;
+package com.bortolanza.fleet.modules.user.entity;
 
 import com.bortolanza.fleet.modules.company.entity.Company;
 import com.bortolanza.fleet.modules.enums.UserRole;

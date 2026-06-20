@@ -1,7 +1,7 @@
-package com.bortolanza.fleet.modules.dto.out;
+package com.bortolanza.fleet.modules.vehicle.dto.out;
 
-import com.bortolanza.fleet.modules.enums.VehicleStatus;
-import com.bortolanza.fleet.modules.enums.VehicleType;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleStatus;
+import com.bortolanza.fleet.modules.vehicle.enums.VehicleType;
 import lombok.*;
 
 
@@ -28,10 +28,9 @@ public class VehicleResponseDTO {
     private String renavam;
     private String chassis;
     private LocalDate acquisitionDate;
-    private boolean active;
     private String imageUrl;
     private VehicleType vehicleType;
     private Long currentMileage;
-    private VehicleStatus status;
+    private VehicleStatus vehicleStatus = VehicleStatus.ACTIVE;
 
 }
