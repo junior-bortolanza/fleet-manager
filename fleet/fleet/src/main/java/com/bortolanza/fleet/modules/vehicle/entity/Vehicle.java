@@ -71,7 +71,6 @@ public class Vehicle {
 
     @Column(nullable = false)
     private Long currentMileage = 0L;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicleStatus status = VehicleStatus.ACTIVE;

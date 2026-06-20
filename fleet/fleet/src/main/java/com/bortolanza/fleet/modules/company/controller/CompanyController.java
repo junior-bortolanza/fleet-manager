@@ -52,7 +52,7 @@ public class CompanyController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<CompanyResponseDTO> updateCompany(@PathVariable UUID id, @Valid @RequestBody CompanyRequestDTO dto) {
         CompanyResponseDTO company = companyService.updateCompany(id, dto);
-        return  ResponseEntity.ok(company);
+        return ResponseEntity.ok(company);
     }
 
 }

@@ -47,6 +47,9 @@ public class VehicleRequestDTO {
     @NotNull
     private BigDecimal loadCapacityKg;
 
+    @NotNull
+    private Long currentMileage;
+
     @NotBlank
     private String renavam;
 

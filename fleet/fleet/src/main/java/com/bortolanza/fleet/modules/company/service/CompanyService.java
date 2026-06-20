@@ -1,10 +1,11 @@
 package com.bortolanza.fleet.modules.company.service;
 
+import com.bortolanza.fleet.common.exceptions.ConflictException;
+import com.bortolanza.fleet.common.exceptions.ResourceNotFoundException;
 import com.bortolanza.fleet.modules.company.dto.in.CompanyRequestDTO;
 import com.bortolanza.fleet.modules.company.dto.out.CompanyResponseDTO;
 import com.bortolanza.fleet.modules.company.entity.Company;
 import com.bortolanza.fleet.modules.company.mapper.CompanyMapper;
-import com.bortolanza.fleet.common.exceptions.BusinessException;
 import com.bortolanza.fleet.modules.company.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CompanyService {
         String cnpj = companyDTO.getCnpj()
                 .replaceAll("\\D", "");
         if(companyRepository.existsByCnpj(cnpj)){
-            throw new BusinessException("Já existe uma empresa cadastrada com o CNPJ informado.");
+            throw new ConflictException("Já existe uma empresa cadastrada com o CNPJ informado.");
         }
         Company entity = companyMapper.toEntity(companyDTO);
         entity.setCnpj(cnpj);
@@ -38,21 +39,21 @@ public class CompanyService {
     public CompanyResponseDTO findById(UUID id) {
         return companyRepository.findById(id)
                 .map(companyMapper::toResponseDTO)
-                .orElseThrow(() -> new BusinessException("Empresa nao encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
     }
 
     public CompanyResponseDTO findByCnpj(String cnpj) {
         cnpj = cnpj.replaceAll("\\D", "");
 
         Company company = companyRepository.findByCnpj(cnpj)
-                .orElseThrow(() -> new BusinessException("Empresa nao encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
 
         return companyMapper.toResponseDTO(company);
     }
 
     public CompanyResponseDTO findByName(String name) {
        Company company = companyRepository.findByName(name)
-               .orElseThrow(() -> new BusinessException("Empresa nao encontrada."));
+               .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
 
        return companyMapper.toResponseDTO(company);
     }
@@ -68,13 +69,13 @@ public class CompanyService {
     @Transactional
     public CompanyResponseDTO updateCompany(UUID id, CompanyRequestDTO companyDTO) {
        Company company = companyRepository.findById(id)
-               .orElseThrow(() -> new BusinessException("Empresa nao encontrada."));
+               .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
 
         String cnpj = companyDTO.getCnpj().replaceAll("\\D", "");
 
-       if(!company.getCnpj().equals(companyDTO.getCnpj()) && companyRepository.existsByCnpj(cnpj)) {
-           throw new BusinessException("CNPJ já cadastrado.");
-       }
+        if (!company.getCnpj().equals(cnpj) && companyRepository.existsByCnpj(cnpj)) {
+            throw new ConflictException("CNPJ já cadastrado.");
+        }
 
        companyMapper.updateEntity(companyDTO, company);
        company.setCnpj(cnpj);

@@ -28,10 +28,9 @@ public class VehicleResponseDTO {
     private String renavam;
     private String chassis;
     private LocalDate acquisitionDate;
-    private boolean active;
     private String imageUrl;
     private VehicleType vehicleType;
     private Long currentMileage;
-    private VehicleStatus status;
+    private VehicleStatus vehicleStatus = VehicleStatus.ACTIVE;
 
 }

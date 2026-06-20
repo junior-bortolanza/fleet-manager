@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.dto.in;
+package com.bortolanza.fleet.modules.user.dto.in;
 
 import com.bortolanza.fleet.modules.enums.UserRole;
 import jakarta.validation.constraints.Email;
