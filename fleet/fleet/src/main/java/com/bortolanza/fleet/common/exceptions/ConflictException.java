@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.exceptions;
+package com.bortolanza.fleet.common.exceptions;
 
 public class ConflictException extends RuntimeException {
     public ConflictException(String message) {

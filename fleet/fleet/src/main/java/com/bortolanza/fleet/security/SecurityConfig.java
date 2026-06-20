@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,28 +20,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    public static final String SECURITY_SCHEME = "bearerAuth";
-
-    // Instâncias de JwtUtil e UserDetailsService injetadas pelo Spring
     private final JwtUtil jwtUtil;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    // Construtor para injeção de dependências de JwtUtil e UserDetailsService
     @Autowired
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
 
-    // Configuração do filtro de segurança
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(jwtUtil, userDetailsService);
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers((headers ->
+                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
+
+                        .requestMatchers("/companies/**").permitAll()
+                        .requestMatchers("/vehicles/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -49,16 +53,13 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Configura o PasswordEncoder para criptografar senhas usando BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Retorna uma instância de BCryptPasswordEncoder
+        return new BCryptPasswordEncoder();
     }
 
-    // Configura o AuthenticationManager usando AuthenticationConfiguration
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        // Obtém e retorna o AuthenticationManager da configuração de autenticação
         return authenticationConfiguration.getAuthenticationManager();
     }
 }

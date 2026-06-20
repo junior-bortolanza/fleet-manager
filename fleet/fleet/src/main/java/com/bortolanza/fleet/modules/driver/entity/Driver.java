@@ -1,14 +1,14 @@
-package com.bortolanza.fleet.modules.entity;
+package com.bortolanza.fleet.modules.driver.entity;
 
 import com.bortolanza.fleet.modules.company.entity.Company;
-import com.bortolanza.fleet.modules.entity.embeddable.Address;
-import com.bortolanza.fleet.modules.enums.CnhCategory;
+import com.bortolanza.fleet.modules.driver.enums.CnhCategory;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "driver")
+@Table(name = "drivers")
 public class Driver {
 
     @Id
@@ -51,9 +51,4 @@ public class Driver {
     private String phone;
 
     private String email;
-
-    @Embedded
-    private Address address;
-
-
 }

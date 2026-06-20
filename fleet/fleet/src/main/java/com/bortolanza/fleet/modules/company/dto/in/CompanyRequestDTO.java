@@ -9,18 +9,20 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class CompanyRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Nome fantasia é obrigatório")
     private String tradeName;
 
-    @NotBlank
+    @NotBlank(message = "CNPJ é obrigatório")
     private String cnpj;
+
+    @NotBlank(message = "Telefone é obrigatório")
+    private String phone;
 
     private String address;
     private String email;
-    private String phone;
     private String city;
     private String state;
     private String zipCode;

@@ -1,13 +1,15 @@
-package com.bortolanza.fleet.modules.service;
+package com.bortolanza.fleet.modules.user.service;
 
-import com.bortolanza.fleet.modules.dto.in.UserRequestDTO;
-import com.bortolanza.fleet.modules.dto.mapper.UserMapper;
-import com.bortolanza.fleet.modules.dto.out.UserResponseDTO;
+import com.bortolanza.fleet.common.exceptions.BusinessException;
+import com.bortolanza.fleet.common.exceptions.ConflictException;
+import com.bortolanza.fleet.common.exceptions.ResourceNotFoundException;
+import com.bortolanza.fleet.modules.user.dto.in.UserRequestDTO;
+import com.bortolanza.fleet.modules.user.mapper.UserMapper;
+import com.bortolanza.fleet.modules.user.dto.out.UserResponseDTO;
 import com.bortolanza.fleet.modules.company.entity.Company;
-import com.bortolanza.fleet.modules.entity.User;
-import com.bortolanza.fleet.modules.exceptions.ConflictException;
+import com.bortolanza.fleet.modules.user.entity.User;
 import com.bortolanza.fleet.modules.company.repository.CompanyRepository;
-import com.bortolanza.fleet.modules.repository.UserRepository;
+import com.bortolanza.fleet.modules.user.repository.UserRepository;
 import com.bortolanza.fleet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +30,7 @@ public class UserService {
     public UserResponseDTO createUser(UserRequestDTO dto) {
         emailExists(dto.getEmail());
         Company company = companyRepository.findById(dto.getCompanyId())
-                .orElseThrow(() -> new UsernameNotFoundException("Company with id " + dto.getCompanyId() + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company with id " + dto.getCompanyId() + " not found"));
 
         User user = userMapper.toEntity(dto);
         user.setCompany(company);
@@ -61,13 +63,13 @@ public class UserService {
 
         //Busca os dados do usuário no banco de dados
         User userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+                .orElseThrow(() -> new BusinessException("Email not found"));
 
         //Mesclou os dados que recebemos na requisiÇão DTO com os dados do banco de dados
-        User user = userMapper.updateEntity(dto, userEntity);
+        userMapper.updateEntity(dto, userEntity);
 
         // Salvou os dados do usuário convertido e depois pegou o retorno e converteu para UsuarioDTO
-        return userMapper.toResponseDTO(userRepository.save(user));
+        return userMapper.toResponseDTO(userRepository.save(userEntity));
 
     }
 }

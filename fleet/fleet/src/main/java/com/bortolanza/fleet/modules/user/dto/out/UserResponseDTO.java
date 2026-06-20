@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.dto.out;
+package com.bortolanza.fleet.modules.user.dto.out;
 
 import com.bortolanza.fleet.modules.enums.UserRole;
 import lombok.*;

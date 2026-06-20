@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.auth;
+package com.bortolanza.fleet.modules.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
