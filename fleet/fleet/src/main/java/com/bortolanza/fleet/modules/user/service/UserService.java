@@ -27,7 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public UserResponseDTO createUser(UserRequestDTO dto) {
+    public UserResponseDTO createUser(@org.checkerframework.checker.nullness.qual.MonotonicNonNull UserRequestDTO dto) {
         emailExists(dto.getEmail());
         Company company = companyRepository.findById(dto.getCompanyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Company with id " + dto.getCompanyId() + " not found"));

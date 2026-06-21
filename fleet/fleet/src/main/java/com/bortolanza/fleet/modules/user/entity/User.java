@@ -1,11 +1,12 @@
 package com.bortolanza.fleet.modules.user.entity;
 
 import com.bortolanza.fleet.modules.company.entity.Company;
-import com.bortolanza.fleet.modules.enums.UserRole;
+import com.bortolanza.fleet.modules.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -53,7 +54,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        );
     }
 
     @Override
@@ -64,6 +68,11 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 
 }
