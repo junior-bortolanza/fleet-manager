@@ -1,12 +1,12 @@
 package com.bortolanza.fleet.modules.user.dto.in;
 
-import com.bortolanza.fleet.modules.enums.UserRole;
+import com.bortolanza.fleet.modules.user.enums.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -29,5 +29,5 @@ public class UserRequestDTO {
     private UserRole role;
 
     @NotNull
-    private UUID companyId;
+    private Long companyId;
 }

@@ -27,7 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public UserResponseDTO createUser(@org.checkerframework.checker.nullness.qual.MonotonicNonNull UserRequestDTO dto) {
+    public UserResponseDTO createUser( UserRequestDTO dto) {
         emailExists(dto.getEmail());
         Company company = companyRepository.findById(dto.getCompanyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Company with id " + dto.getCompanyId() + " not found"));
@@ -70,6 +70,5 @@ public class UserService {
 
         // Salvou os dados do usuário convertido e depois pegou o retorno e converteu para UsuarioDTO
         return userMapper.toResponseDTO(userRepository.save(userEntity));
-
     }
 }
