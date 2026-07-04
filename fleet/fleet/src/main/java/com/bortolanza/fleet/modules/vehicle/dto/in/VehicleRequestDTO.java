@@ -11,7 +11,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 
 @Getter
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class VehicleRequestDTO {
 
     @NotNull
-    private UUID companyId;
+    private Long companyId;
 
     @NotBlank
     @Size(min = 7, max = 8)
