@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping(value = "/vehicles")
@@ -26,7 +26,7 @@ public class VehicleController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<VehicleResponseDTO> findVehicleById(@PathVariable UUID id) {
+    public ResponseEntity<VehicleResponseDTO> findVehicleById(@PathVariable Long id) {
         VehicleResponseDTO vehicles = vehicleService.findById(id);
         return ResponseEntity.ok(vehicles);
     }
@@ -44,7 +44,7 @@ public class VehicleController {
     }
 
     @PutMapping(value ="/{id}" )
-    public ResponseEntity<VehicleResponseDTO> updateVehicle(@PathVariable UUID id, @RequestBody VehicleRequestDTO vehicleRequestDTO) {
+    public ResponseEntity<VehicleResponseDTO> updateVehicle(@PathVariable Long id, @RequestBody VehicleRequestDTO vehicleRequestDTO) {
         System.out.println("TESTE NO CONTROLLER" );
         VehicleResponseDTO vehicle = vehicleService.updateVehicle(id, vehicleRequestDTO);
         return ResponseEntity.ok(vehicle);

@@ -7,7 +7,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -16,8 +16,8 @@ import java.util.UUID;
 @Builder
 public class VehicleResponseDTO {
 
-    private UUID id;
-    private UUID companyId;
+    private Long id;
+    private Long companyId;
     private String plate;
     private String brand;
     private String model;

@@ -1,6 +1,5 @@
 package com.bortolanza.fleet.modules.vehicle.service;
 
-import com.bortolanza.fleet.common.exceptions.BusinessException;
 import com.bortolanza.fleet.common.exceptions.ConflictException;
 import com.bortolanza.fleet.common.exceptions.ResourceNotFoundException;
 import com.bortolanza.fleet.modules.vehicle.dto.in.VehicleRequestDTO;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -38,7 +36,7 @@ public class VehicleService {
         return  vehicleMapper.toResponseDTO(vehicle);
     }
 
-    public VehicleResponseDTO findById(UUID id) {
+    public VehicleResponseDTO findById(Long id) {
         return vehicleRepository.findById(id).map(vehicleMapper::toResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado!"));
     }
@@ -58,7 +56,7 @@ public class VehicleService {
     }
 
     @Transactional
-    public VehicleResponseDTO updateVehicle(UUID id, VehicleRequestDTO vehicleRequestDTO) {
+    public VehicleResponseDTO updateVehicle(Long id, VehicleRequestDTO vehicleRequestDTO) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado!"));
 
@@ -74,5 +72,4 @@ public class VehicleService {
         return vehicleMapper.toResponseDTO(vehicleRepository.save(vehicle));
 
     }
-
 }

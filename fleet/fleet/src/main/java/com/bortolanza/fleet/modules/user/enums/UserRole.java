@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.modules.enums;
+package com.bortolanza.fleet.modules.user.enums;
 
 
 public enum UserRole {
