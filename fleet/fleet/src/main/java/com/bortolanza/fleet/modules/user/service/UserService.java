@@ -29,8 +29,11 @@ public class UserService {
 
     public UserResponseDTO createUser( UserRequestDTO dto) {
         emailExists(dto.getEmail());
-        Company company = companyRepository.findById(dto.getCompanyId())
-                .orElseThrow(() -> new ResourceNotFoundException("Company with id " + dto.getCompanyId() + " not found"));
+        Company company = null;
+        if(dto.getCompanyId() != null) {
+            company = companyRepository.findById(dto.getCompanyId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+        }
 
         User user = userMapper.toEntity(dto);
         user.setCompany(company);

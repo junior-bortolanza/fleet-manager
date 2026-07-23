@@ -2,7 +2,7 @@ package com.bortolanza.fleet.modules.company.dto.out;
 
 import lombok.*;
 
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class CompanyResponseDTO {
 
-    private UUID id;
+    private Long id;
     private String name;
     private String cnpj;
     private String address;

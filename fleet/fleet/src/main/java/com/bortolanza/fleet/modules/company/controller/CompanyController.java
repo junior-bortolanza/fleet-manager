@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping(value = "/companies")
@@ -26,7 +26,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CompanyResponseDTO> findCompanyById(@PathVariable UUID id) {
+    public ResponseEntity<CompanyResponseDTO> findCompanyById(@PathVariable Long id) {
         CompanyResponseDTO company = companyService.findById(id);
         return ResponseEntity.ok(company);
     }
@@ -50,7 +50,7 @@ public class CompanyController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CompanyResponseDTO> updateCompany(@PathVariable UUID id, @Valid @RequestBody CompanyRequestDTO dto) {
+    public ResponseEntity<CompanyResponseDTO> updateCompany(@PathVariable Long id, @Valid @RequestBody CompanyRequestDTO dto) {
         CompanyResponseDTO company = companyService.updateCompany(id, dto);
         return ResponseEntity.ok(company);
     }

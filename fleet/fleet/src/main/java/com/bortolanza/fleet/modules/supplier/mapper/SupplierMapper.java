@@ -1,17 +1,16 @@
-package com.bortolanza.fleet.modules.company.mapper;
-
-import com.bortolanza.fleet.modules.company.dto.in.CompanyRequestDTO;
-import com.bortolanza.fleet.modules.company.dto.out.CompanyResponseDTO;
-import com.bortolanza.fleet.modules.company.entity.Company;
+package com.bortolanza.fleet.modules.supplier.mapper;
+import com.bortolanza.fleet.modules.supplier.dto.in.SupplierRequestDTO;
+import com.bortolanza.fleet.modules.supplier.dto.out.SupplierResponseDTO;
+import com.bortolanza.fleet.modules.supplier.entity.Supplier;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface CompanyMapper {
+public interface SupplierMapper {
 
-    Company toEntity(CompanyRequestDTO dto);
+    Supplier toEntity(SupplierRequestDTO dto);
 
-    CompanyResponseDTO toResponseDTO(Company entity);
+    SupplierResponseDTO toResponseDTO(Supplier entity);
 
-    void updateEntity(CompanyRequestDTO dto, @MappingTarget Company entity);
+    void updateEntity(SupplierRequestDTO dto, @MappingTarget Supplier entity);
 }
