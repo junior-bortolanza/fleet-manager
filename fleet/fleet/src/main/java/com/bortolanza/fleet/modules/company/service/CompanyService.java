@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class CompanyService {
         return companyMapper.toResponseDTO(entity);
     }
 
-    public CompanyResponseDTO findById(UUID id) {
+    public CompanyResponseDTO findById(Long id) {
         return companyRepository.findById(id)
                 .map(companyMapper::toResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
@@ -66,8 +65,10 @@ public class CompanyService {
                 .toList();
     }
 
+    
+
     @Transactional
-    public CompanyResponseDTO updateCompany(UUID id, CompanyRequestDTO companyDTO) {
+    public CompanyResponseDTO updateCompany(Long id, CompanyRequestDTO companyDTO) {
        Company company = companyRepository.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Empresa nao encontrada."));
 

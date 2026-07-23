@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SupllierResponseDTO {
+public class SupplierResponseDTO {
 
     private Long id;
     private Long companyId;
