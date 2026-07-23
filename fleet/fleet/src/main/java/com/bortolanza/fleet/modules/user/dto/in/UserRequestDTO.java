@@ -28,6 +28,6 @@ public class UserRequestDTO {
     @NotNull
     private UserRole role;
 
-    @NotNull
+
     private Long companyId;
 }

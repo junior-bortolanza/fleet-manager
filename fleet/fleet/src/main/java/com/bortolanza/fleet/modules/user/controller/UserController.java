@@ -20,7 +20,6 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
         UserResponseDTO newDto = userService.createUser(userDTO);
         URI uri = ServletUriComponentsBuilder
