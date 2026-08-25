@@ -3,6 +3,9 @@ package com.bortolanza.fleet.modules.user.service;
 import com.bortolanza.fleet.common.exceptions.BusinessException;
 import com.bortolanza.fleet.common.exceptions.ConflictException;
 import com.bortolanza.fleet.common.exceptions.ResourceNotFoundException;
+import com.bortolanza.fleet.common.exceptions.UnauthorizedException;
+import com.bortolanza.fleet.modules.auth.config.TokenUtil;
+import com.bortolanza.fleet.modules.user.dto.in.LoginRequestDTO;
 import com.bortolanza.fleet.modules.user.dto.in.UserRequestDTO;
 import com.bortolanza.fleet.modules.user.mapper.UserMapper;
 import com.bortolanza.fleet.modules.user.dto.out.UserResponseDTO;
@@ -10,10 +13,13 @@ import com.bortolanza.fleet.modules.company.entity.Company;
 import com.bortolanza.fleet.modules.user.entity.User;
 import com.bortolanza.fleet.modules.company.repository.CompanyRepository;
 import com.bortolanza.fleet.modules.user.repository.UserRepository;
-import com.bortolanza.fleet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,11 +27,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final TokenUtil tokenUtil;
+    private final AuthenticationManager authenticationManager;
 
     public UserResponseDTO createUser( UserRequestDTO dto) {
         emailExists(dto.getEmail());
@@ -42,16 +50,6 @@ public class UserService {
         return userMapper.toResponseDTO(userRepository.save(user));
     }
 
-    public void emailExists(String email) {
-        try {
-            boolean exists = userRepository.existsByEmail(email);
-            if(exists) {
-                throw new UsernameNotFoundException("Email already exists");
-            }
-        } catch (ConflictException e) {
-            throw new ConflictException("Email already exists" + e.getCause());
-        }
-    }
 
     public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
@@ -59,7 +57,7 @@ public class UserService {
 
     public UserResponseDTO updateUserData(String token, UserRequestDTO dto) {
         //Aqui buscamos o email do usuario atraves do token (tirar a obrigatoriedade do email)
-        String email = jwtUtil.extractEmailToken(token.substring(7));
+        String email = tokenUtil.extractEmailToken(token.substring(7));
 
         //Criptografia de senha
         dto.setPassword(dto.getPassword() != null ? passwordEncoder.encode(dto.getPassword()) : null);
@@ -73,5 +71,27 @@ public class UserService {
 
         // Salvou os dados do usuário convertido e depois pegou o retorno e converteu para UsuarioDTO
         return userMapper.toResponseDTO(userRepository.save(userEntity));
+    }
+
+    public String authenticateUser(LoginRequestDTO dto) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
+            );
+            return "Bearer " + TokenUtil.generateToken(authentication.getName());
+        } catch (BadCredentialsException | UsernameNotFoundException e) {
+            throw new UnauthorizedException("Email ou senha inválidos");
+        }
+    }
+
+    public void emailExists(String email) {
+        try {
+            boolean exists = userRepository.existsByEmail(email);
+            if(exists) {
+                throw new UsernameNotFoundException("Email already exists");
+            }
+        } catch (ConflictException e) {
+            throw new ConflictException("Email already exists" + e.getCause());
+        }
     }
 }

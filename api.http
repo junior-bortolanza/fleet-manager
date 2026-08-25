@@ -1,0 +1,5 @@
+// The request body is provided in place
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{ "email" : "admin@gmail.com", "password": "123456" }

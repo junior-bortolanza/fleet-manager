@@ -18,7 +18,7 @@ public class SupplierController {
     private final SupplierService supplierService;
 
     @GetMapping
-    public ResponseEntity<List<SupplierResponseDTO>> findAllCompany() {
+    public ResponseEntity<List<SupplierResponseDTO>> findAllSupplier() {
         List<SupplierResponseDTO> supplier = supplierService.findAll();
         return ResponseEntity.ok(supplier);
     }
@@ -30,13 +30,13 @@ public class SupplierController {
     }
 
     @GetMapping(value = "/cnpj/{cnpj}")
-    public ResponseEntity<SupplierResponseDTO> findByCnpj(@PathVariable String cnpj) {
+    public ResponseEntity<SupplierResponseDTO> findSupplierByCnpj(@PathVariable String cnpj) {
         SupplierResponseDTO supplier = supplierService.findByCnpj(cnpj);
         return ResponseEntity.ok(supplier);
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<SupplierResponseDTO> findByName(@RequestParam String name) {
+    public ResponseEntity<SupplierResponseDTO> findSupplierByName(@RequestParam String name) {
         SupplierResponseDTO supplier = supplierService.findByName(name);
         return ResponseEntity.ok(supplier);
     }
