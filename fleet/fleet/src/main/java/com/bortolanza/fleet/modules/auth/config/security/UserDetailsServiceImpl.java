@@ -1,4 +1,4 @@
-package com.bortolanza.fleet.security.service;
+package com.bortolanza.fleet.modules.auth.config.security;
 
 
 import com.bortolanza.fleet.modules.user.repository.UserRepository;

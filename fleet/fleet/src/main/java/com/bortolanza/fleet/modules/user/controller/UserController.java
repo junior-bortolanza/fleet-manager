@@ -1,8 +1,10 @@
 package com.bortolanza.fleet.modules.user.controller;
 
+import com.bortolanza.fleet.modules.user.dto.in.LoginRequestDTO;
 import com.bortolanza.fleet.modules.user.dto.in.UserRequestDTO;
 import com.bortolanza.fleet.modules.user.dto.out.UserResponseDTO;
 import com.bortolanza.fleet.modules.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,13 +13,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-
 @RestController
 @RequestMapping(value = "/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginRequestDTO loginUserDto) {
+        String token = userService.authenticateUser(loginUserDto);
+        return ResponseEntity.ok(token);
+    }
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
