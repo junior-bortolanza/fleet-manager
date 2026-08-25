@@ -110,6 +110,18 @@ public class MaintenanceService {
                 .toList();
     }
 
+    @Transactional
+    public MaintenanceResponseDTO updateMaintenance(Long id, MaintenanceRequestDTO maintenanceDTO) {
+        Maintenance maintenance = maintenanceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Manutenção não econtrada!"));
+
+       maintenanceMapper.updateEntity(maintenanceDTO, maintenance);
+
+       Maintenance updateMaitenance =  maintenanceRepository.save(maintenance);
+       return maintenanceMapper.toResponseDTO(updateMaitenance);
+    }
+
+    //Métodos auxiliares para melhor separação de responsabilidades
     private void validateCompanyRelationships(Vehicle vehicle, Driver driver, Supplier supplier) {
         Long companyId = vehicle.getCompany().getId();
 

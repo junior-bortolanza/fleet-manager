@@ -9,6 +9,7 @@ import com.bortolanza.fleet.modules.maintenance.dto.out.MaintenanceResponseDTO;
 import com.bortolanza.fleet.modules.maintenance.entity.Maintenance;
 import com.bortolanza.fleet.modules.maintenance.mapper.MaintenanceMapper;
 import com.bortolanza.fleet.modules.maintenance.repository.MaintenanceRepository;
+import com.bortolanza.fleet.modules.supplier.entity.Supplier;
 import com.bortolanza.fleet.modules.supplier.service.SupplierService;
 import com.bortolanza.fleet.modules.vehicle.entity.Vehicle;
 import com.bortolanza.fleet.modules.vehicle.service.VehicleService;
@@ -46,7 +47,7 @@ class MaintenanceServiceTest {
 
     @Test
     @DisplayName("Deve criar manutenção com sucesso quando todos os dados forem válidos")
-    void createMaintenanceSuccess() {
+    void shouldReturnCreatedMaintenanceSuccessWhenAllDataIsValid() {
         // Arrange
         MaintenanceRequestDTO dto = MaintenanceRequestDTO.builder()
                 .plate("ABC1234")
@@ -95,6 +96,33 @@ class MaintenanceServiceTest {
         );
 
         assertEquals("O motorista não pertence à mesma empresa do veículo", exception.getMessage());
+        verify(maintenanceRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando o fornecedor pertence a uma empresa diferente do veículo")
+    void createMaintenanceSupplierDifferentCompany() {
+        // Arrange
+        MaintenanceRequestDTO dto = MaintenanceRequestDTO.builder()
+                .plate("ABC1234")
+                .supplierId(20L)
+                .build();
+
+        Company companyA = Company.builder().id(1L).build();
+        Company companyB = Company.builder().id(2L).build();
+
+        Vehicle vehicle = Vehicle.builder().id(1L).company(companyA).build();
+        Supplier supplier = Supplier.builder().id(20L).company(companyB).build();
+
+        when(vehicleService.getAndValidateForMaintenance("ABC1234")).thenReturn(vehicle);
+        when(supplierService.getById(20L)).thenReturn(supplier);
+
+        // Act & Assert
+        BusinessException exception = assertThrows(BusinessException.class, () ->
+            maintenanceService.createMaintenance(dto)
+        );
+
+        assertEquals("O fornecedor não pertence à mesma empresa do veículo", exception.getMessage());
         verify(maintenanceRepository, never()).save(any());
     }
 }
